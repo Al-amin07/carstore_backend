@@ -32,7 +32,8 @@ const getAllCars = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: 'Something went wrong',
+      message: 'Validation failed',
+
       error,
     });
   }
@@ -51,7 +52,7 @@ const getSingleCar = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: 'Something went wrong',
+      message: 'Validation failed',
       error,
     });
   }
@@ -68,14 +69,15 @@ const updateSingleCar = async (req: Request, res: Response) => {
     );
     res.status(200).json({
       success: true,
-      message: 'Cars retrieved successfully',
+      message: 'Car updated successfully',
       data: result,
     });
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: 'Something went wrong',
-      error,
+      message: 'Validation failed',
+      error: error,
+      // stack: error?.stack,
     });
   }
 };
@@ -93,7 +95,7 @@ const deleteCar = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: 'Something went wrong',
+      message: 'Validation failed',
       error,
     });
   }

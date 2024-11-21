@@ -6,7 +6,7 @@ const carSchema = new Schema<Car>(
     brand: {
       type: String,
       required: [true, 'Brand is required'],
-      trim: true, // Removes extra spaces
+      trim: true,
     },
     model: {
       type: String,
@@ -47,7 +47,7 @@ const carSchema = new Schema<Car>(
       required: [true, 'Stock status is required'],
     },
   },
-  { timestamps: true }, // Automatically manages createdAt and updatedAt fields
+  { timestamps: true },
 );
 
 const CarModel = model<Car>('Cars', carSchema);
