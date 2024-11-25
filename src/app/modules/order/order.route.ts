@@ -7,6 +7,8 @@ route.get('/', (req, res) => {
   res.send('HHHHHHHHHH');
 });
 
+route.get('/revenue', orderControllers.calculateRevenue);
+
 route.post('/', orderControllers.createOrder);
 
 export const orderRoute = route;

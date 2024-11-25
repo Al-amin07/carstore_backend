@@ -5,9 +5,9 @@ const route = express.Router();
 
 route.get('/', carControllers.getAllCars);
 route.get('/:carId', carControllers.getSingleCar);
-route.delete('/:carId', carControllers.deleteCar);
-route.patch('/:carId', carControllers.updateSingleCar);
+route.put('/:carId', carControllers.updateSingleCar);
 
 route.post('/', carControllers.createCar);
+route.delete('/:carId', carControllers.deleteCar);
 
 export const carRoute = route;

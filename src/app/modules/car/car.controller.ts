@@ -4,7 +4,7 @@ import { carServices } from './car.service';
 // Create New Car
 const createCar = async (req: Request, res: Response) => {
   try {
-    const { cars: carDetails } = req.body;
+    const carDetails = req.body;
     const result = await carServices.createCarToDB(carDetails);
     res.status(200).json({
       success: true,
@@ -14,8 +14,9 @@ const createCar = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: 'Something went wrong',
+      message: 'Validation failed',
       error,
+      stack: error?.stack,
     });
   }
 };
@@ -24,17 +25,17 @@ const createCar = async (req: Request, res: Response) => {
 const getAllCars = async (req: Request, res: Response) => {
   try {
     const result = await carServices.getAllCarsFromDB();
-    res.status(200).json({
-      success: true,
+    res.json({
+      status: true,
       message: 'Cars retrieved successfully',
       data: result,
     });
   } catch (error) {
-    res.status(400).json({
-      success: false,
+    res.json({
+      status: false,
       message: 'Validation failed',
-
       error,
+      stack: error?.stack,
     });
   }
 };
@@ -44,16 +45,17 @@ const getSingleCar = async (req: Request, res: Response) => {
   try {
     const { carId } = req.params;
     const result = await carServices.getSignleCarFromDB(carId);
-    res.status(200).json({
-      success: true,
-      message: 'Cars retrieved successfully',
+    res.json({
+      status: true,
+      message: 'Car retrieved successfully',
       data: result,
     });
   } catch (error) {
-    res.status(400).json({
-      success: false,
+    res.json({
+      status: false,
       message: 'Validation failed',
       error,
+      stack: error?.stack,
     });
   }
 };
@@ -67,17 +69,17 @@ const updateSingleCar = async (req: Request, res: Response) => {
       carId,
       updatedDetails,
     );
-    res.status(200).json({
-      success: true,
+    res.json({
+      status: true,
       message: 'Car updated successfully',
       data: result,
     });
   } catch (error) {
-    res.status(400).json({
-      success: false,
+    res.json({
+      status: false,
       message: 'Validation failed',
       error: error,
-      // stack: error?.stack,
+      stack: error?.stack,
     });
   }
 };
@@ -87,16 +89,17 @@ const deleteCar = async (req: Request, res: Response) => {
   try {
     const { carId } = req.params;
     const result = await carServices.deleteCarFromDB(carId);
-    res.status(200).json({
-      success: true,
+    res.json({
+      status: true,
       message: 'Car deleted successfully',
-      data: result,
+      data: {},
     });
   } catch (error) {
-    res.status(400).json({
-      success: false,
+    res.json({
+      status: false,
       message: 'Validation failed',
       error,
+      stack: error?.stack,
     });
   }
 };
