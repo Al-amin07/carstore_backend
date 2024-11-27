@@ -17,7 +17,7 @@ const createOrder = async (req: Request, res: Response): Promise<any> => {
         },
       });
     }
-    if (isCarExist && !isCarExist.inStock) {
+    if (!isCarExist.inStock) {
       return res.status(404).json({
         message: 'Something went wrong',
         status: false,
@@ -51,7 +51,7 @@ const createOrder = async (req: Request, res: Response): Promise<any> => {
       },
     );
     console.log(updatedResult);
-    // const result = await orderServices.createOrderToDB(order);
+
     return res.status(200).json({
       message: 'Order created successfully',
       status: true,
@@ -66,15 +66,6 @@ const createOrder = async (req: Request, res: Response): Promise<any> => {
     });
   }
 };
-
-// const createOrder = async (req: Request, res: Response) => {
-//   const order = req.body;
-//   const result = await orderServices.createOrderToDB(order);
-//   res.json({
-//     status: true,
-//     data: result,
-//   });
-// };
 
 const getAllOrder = async (req: Request, res: Response) => {
   try {
@@ -111,20 +102,8 @@ const calculateRevenue = async (req: Request, res: Response) => {
   }
 };
 
-const handleUnknownRoute = async (req: Request, res: Response) => {
-  try {
-    res.status(404).json({
-      success: false,
-      message: 'Page not found',
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const orderControllers = {
   createOrder,
   calculateRevenue,
   getAllOrder,
-  handleUnknownRoute,
 };

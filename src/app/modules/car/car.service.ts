@@ -21,7 +21,11 @@ const getSignleCarFromDB = async (id: string) => {
 
 // Update a Car
 const updateSingleCarFromDB = async (id: string, obj: object) => {
-  await CarModel.updateOne({ _id: id }, { ...obj }, { runValidators: true });
+  await CarModel.updateOne(
+    { _id: id },
+    { ...obj },
+    { new: true, runValidators: true },
+  );
   const result = await CarModel.findById(id);
   return result;
 };

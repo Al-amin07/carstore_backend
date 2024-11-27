@@ -15,4 +15,15 @@ app.get('/', (req: Request, res: Response) => {
   });
 });
 
+app.all('*', (req: Request, res: Response) => {
+  try {
+    res.status(404).json({
+      success: false,
+      message: 'Page not found',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 export default app;

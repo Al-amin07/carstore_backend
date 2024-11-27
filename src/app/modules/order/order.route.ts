@@ -9,5 +9,4 @@ route.get('/revenue', orderControllers.calculateRevenue);
 
 route.post('/', orderControllers.createOrder);
 
-route.all('/*', orderControllers.handleUnknownRoute);
 export const orderRoute = route;

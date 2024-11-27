@@ -106,23 +106,10 @@ const deleteCar = async (req: Request, res: Response) => {
   }
 };
 
-// Handle unkonwn route
-const handleUnknownRoute = async (req: Request, res: Response) => {
-  try {
-    res.status(404).json({
-      success: true,
-      message: 'Page not found',
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const carControllers = {
   createCar,
   getAllCars,
   getSingleCar,
   deleteCar,
   updateSingleCar,
-  handleUnknownRoute,
 };

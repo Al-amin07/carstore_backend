@@ -9,5 +9,5 @@ route.put('/:carId', carControllers.updateSingleCar);
 
 route.post('/', carControllers.createCar);
 route.delete('/:carId', carControllers.deleteCar);
-route.all('/*', carControllers.handleUnknownRoute);
+
 export const carRoute = route;
