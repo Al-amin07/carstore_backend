@@ -1,6 +1,6 @@
-# Project Name
+# Car Store
 
-A brief description of your project.
+Car Store is an online platform that allows users to browse, order, update, and manage car listings. It offers a wide range of car entries, with functionalities to create, edit, delete, and track orders. Built with Node.js, Express, MongoDB, and Mongoose, it provides a seamless experience for managing car inventories and customer orders.
 
 ## Technologies Used
 
@@ -13,11 +13,11 @@ A brief description of your project.
 - **Prettier** - Code formatter for maintaining consistent code style.
 
 ## Features
-
-- Feature 1
-- Feature 2
-- Feature 3
-
+- CRUD operations for car entries
+- Mongoose schema validation with proper error message
+- Environment variable configuration
+- Development and production modes
+- 
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
