@@ -29,12 +29,13 @@ Before you begin, ensure you have met the following requirements:
 
 Follow these steps to set up and run the project locally.
 
-### 1. Clone the Repository
+## 1. Clone the Repository
 
   ```bash
   git clone https://github.com/Al-amin07/carstore_backend.git
 
-### 2. Clone the Repository
+
+## 2. Clone the Repository
 
 Navigate to the project directory and install the necessary dependencies:
 
@@ -42,7 +43,8 @@ Navigate to the project directory and install the necessary dependencies:
   cd project-name
   npm install
 
-### 3. Set Up Environment Variables
+
+## 3. Set Up Environment Variables
 Create a .env file in the root of the project to store environment variables, such as MongoDB URI or any secret keys. Here’s an example:
 ```bash
 PORT=5000
