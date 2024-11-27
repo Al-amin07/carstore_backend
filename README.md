@@ -42,7 +42,7 @@ Navigate to the project directory and install the necessary dependencies:
    ```bash
    cd project-name
    npm install
-
+   ```
 
 ## 3. Set Up Environment Variables
 Create a .env file in the root of the project to store environment variables, such as MongoDB URI or any secret keys. Here’s an example:
