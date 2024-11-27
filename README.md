@@ -39,7 +39,7 @@ git clone https://github.com/Al-amin07/carstore_backend.git
 Navigate to the project directory and install the necessary dependencies:
 
    ```bash
-   cd project-name
+   cd carstore_backend
    npm install
    ```
 
