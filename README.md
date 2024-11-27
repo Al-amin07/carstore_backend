@@ -49,3 +49,17 @@ Create a .env file in the root of the project to store environment variables, su
 ```bash
 PORT=5000
 DB_URL=mongodb+srv://car_store:o7rRRjAeMw1lYPzJ@cluster0.pekpvn6.mongodb.net/carStore?retryWrites=true&w=majority&appName=Cluster0
+```
+
+## 4. Run the Project
+- **Development Mode**
+To start the project in development mode with hot reloading:
+```bash
+npm run start:dev
+```
+- **Production Mode**
+If you prefer to run the project in production mode:
+```bash
+npm run build
+npm run start
+```
