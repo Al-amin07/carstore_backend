@@ -17,7 +17,6 @@ Car Store is an online platform that allows users to browse, order, update, and 
 - Mongoose schema validation with proper error message
 - Environment variable configuration
 - Development and production modes
-- 
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
