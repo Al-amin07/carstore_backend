@@ -18,4 +18,15 @@ app.get('/', (req, res) => {
         message: 'Welcome to Car Store',
     });
 });
+app.all('*', (req, res) => {
+    try {
+        res.status(404).json({
+            success: false,
+            message: 'Page not found',
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
 exports.default = app;

@@ -29,7 +29,7 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 },
             });
         }
-        if (isCarExist && !isCarExist.inStock) {
+        if (!isCarExist.inStock) {
             return res.status(404).json({
                 message: 'Something went wrong',
                 status: false,
@@ -58,7 +58,6 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             runValidators: true,
         });
         console.log(updatedResult);
-        // const result = await orderServices.createOrderToDB(order);
         return res.status(200).json({
             message: 'Order created successfully',
             status: true,
@@ -74,14 +73,6 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
 });
-// const createOrder = async (req: Request, res: Response) => {
-//   const order = req.body;
-//   const result = await orderServices.createOrderToDB(order);
-//   res.json({
-//     status: true,
-//     data: result,
-//   });
-// };
 const getAllOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield order_service_1.orderServices.getAllOrdersFromDB();
@@ -117,20 +108,8 @@ const calculateRevenue = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
 });
-const handleUnknownRoute = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        res.status(404).json({
-            success: false,
-            message: 'Page not found',
-        });
-    }
-    catch (error) {
-        console.log(error);
-    }
-});
 exports.orderControllers = {
     createOrder,
     calculateRevenue,
     getAllOrder,
-    handleUnknownRoute,
 };

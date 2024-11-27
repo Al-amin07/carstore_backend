@@ -10,5 +10,4 @@ const route = express_1.default.Router();
 route.get('/', order_controller_1.orderControllers.getAllOrder);
 route.get('/revenue', order_controller_1.orderControllers.calculateRevenue);
 route.post('/', order_controller_1.orderControllers.createOrder);
-route.all('/*', order_controller_1.orderControllers.handleUnknownRoute);
 exports.orderRoute = route;

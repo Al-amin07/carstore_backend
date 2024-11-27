@@ -12,5 +12,4 @@ route.get('/:carId', car_controller_1.carControllers.getSingleCar);
 route.put('/:carId', car_controller_1.carControllers.updateSingleCar);
 route.post('/', car_controller_1.carControllers.createCar);
 route.delete('/:carId', car_controller_1.carControllers.deleteCar);
-route.all('/*', car_controller_1.carControllers.handleUnknownRoute);
 exports.carRoute = route;

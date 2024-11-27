@@ -112,23 +112,10 @@ const deleteCar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
 });
-// Handle unkonwn route
-const handleUnknownRoute = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        res.status(404).json({
-            success: true,
-            message: 'Page not found',
-        });
-    }
-    catch (error) {
-        console.log(error);
-    }
-});
 exports.carControllers = {
     createCar,
     getAllCars,
     getSingleCar,
     deleteCar,
     updateSingleCar,
-    handleUnknownRoute,
 };

@@ -31,7 +31,7 @@ const getSignleCarFromDB = (id) => __awaiter(void 0, void 0, void 0, function* (
 });
 // Update a Car
 const updateSingleCarFromDB = (id, obj) => __awaiter(void 0, void 0, void 0, function* () {
-    yield car_model_1.default.updateOne({ _id: id }, Object.assign({}, obj), { runValidators: true });
+    yield car_model_1.default.updateOne({ _id: id }, Object.assign({}, obj), { new: true, runValidators: true });
     const result = yield car_model_1.default.findById(id);
     return result;
 });
