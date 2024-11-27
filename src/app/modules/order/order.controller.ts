@@ -1,31 +1,33 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { orderServices } from './order.service';
 import CarModel from '../car/car.model';
 
-const createOrder = async (req: Request, res: Response) => {
+const createOrder = async (req: Request, res: Response): Promise<any> => {
   try {
     const order = req.body;
     const isCarExist = await CarModel.findById(order.car);
+    const result = await orderServices.createOrderToDB(order);
     if (!isCarExist) {
-      return res.json({
+      return res.status(404).json({
         message: 'Something went wrong',
         status: false,
         error: {
-          message: 'Car not found!!!',
+          message: 'Car is not founded!!!',
         },
       });
     }
-    if (!isCarExist.inStock) {
-      return res.json({
+    if (isCarExist && !isCarExist.inStock) {
+      return res.status(404).json({
         message: 'Something went wrong',
         status: false,
         error: {
-          message: 'Car is not in stock!!!',
+          message: 'Car is out of stock!!!',
         },
       });
     }
     if (isCarExist.quantity < order.quantity) {
-      return res.json({
+      return res.status(404).json({
         message: 'Something went wrong',
         status: false,
         error: {
@@ -48,19 +50,45 @@ const createOrder = async (req: Request, res: Response) => {
         runValidators: true,
       },
     );
-
-    const result = await orderServices.createOrderToDB(order);
-    res.status(200).json({
+    console.log(updatedResult);
+    // const result = await orderServices.createOrderToDB(order);
+    return res.status(200).json({
       message: 'Order created successfully',
       status: true,
       data: result,
     });
-  } catch (error) {
-    res.json({
+  } catch (error: any) {
+    return res.status(404).json({
       message: 'Something went wrong',
       status: false,
       error,
       stack: error?.stack,
+    });
+  }
+};
+
+// const createOrder = async (req: Request, res: Response) => {
+//   const order = req.body;
+//   const result = await orderServices.createOrderToDB(order);
+//   res.json({
+//     status: true,
+//     data: result,
+//   });
+// };
+
+const getAllOrder = async (req: Request, res: Response) => {
+  try {
+    const result = await orderServices.getAllOrdersFromDB();
+    res.json({
+      status: true,
+      message: 'Order retrived successfully',
+      data: result,
+    });
+  } catch (error) {
+    res.json({
+      status: true,
+      message: 'Something went wrong',
+      error,
     });
   }
 };
@@ -73,7 +101,7 @@ const calculateRevenue = async (req: Request, res: Response) => {
       status: true,
       data: result[0],
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(200).json({
       message: 'Something went wrong',
       status: true,
@@ -83,7 +111,20 @@ const calculateRevenue = async (req: Request, res: Response) => {
   }
 };
 
+const handleUnknownRoute = async (req: Request, res: Response) => {
+  try {
+    res.status(404).json({
+      success: false,
+      message: 'Page not found',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const orderControllers = {
   createOrder,
   calculateRevenue,
+  getAllOrder,
+  handleUnknownRoute,
 };

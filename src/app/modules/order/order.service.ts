@@ -29,7 +29,13 @@ const calculateRevenueFromDB = async () => {
   return result;
 };
 
+const getAllOrdersFromDB = async () => {
+  const result = await OrderModel.find({});
+  return result;
+};
+
 export const orderServices = {
   createOrderToDB,
   calculateRevenueFromDB,
+  getAllOrdersFromDB,
 };

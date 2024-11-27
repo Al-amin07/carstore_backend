@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { carServices } from './car.service';
 
@@ -11,7 +12,7 @@ const createCar = async (req: Request, res: Response) => {
       message: 'Car created successfully',
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).json({
       success: false,
       message: 'Validation failed',
@@ -30,7 +31,7 @@ const getAllCars = async (req: Request, res: Response) => {
       message: 'Cars retrieved successfully',
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.json({
       status: false,
       message: 'Validation failed',
@@ -50,7 +51,7 @@ const getSingleCar = async (req: Request, res: Response) => {
       message: 'Car retrieved successfully',
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.json({
       status: false,
       message: 'Validation failed',
@@ -74,7 +75,7 @@ const updateSingleCar = async (req: Request, res: Response) => {
       message: 'Car updated successfully',
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.json({
       status: false,
       message: 'Validation failed',
@@ -89,12 +90,13 @@ const deleteCar = async (req: Request, res: Response) => {
   try {
     const { carId } = req.params;
     const result = await carServices.deleteCarFromDB(carId);
+    console.log(result);
     res.json({
       status: true,
       message: 'Car deleted successfully',
       data: {},
     });
-  } catch (error) {
+  } catch (error: any) {
     res.json({
       status: false,
       message: 'Validation failed',
@@ -104,10 +106,23 @@ const deleteCar = async (req: Request, res: Response) => {
   }
 };
 
+// Handle unkonwn route
+const handleUnknownRoute = async (req: Request, res: Response) => {
+  try {
+    res.status(404).json({
+      success: true,
+      message: 'Page not found',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const carControllers = {
   createCar,
   getAllCars,
   getSingleCar,
   deleteCar,
   updateSingleCar,
+  handleUnknownRoute,
 };

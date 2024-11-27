@@ -1,5 +1,6 @@
 import { model, Schema } from 'mongoose';
 import { Orders } from './order.interface';
+import CarModel from '../car/car.model';
 
 const orderSchema = new Schema<Orders>(
   {
@@ -15,6 +16,13 @@ const orderSchema = new Schema<Orders>(
       type: Schema.Types.ObjectId,
       ref: 'Cars',
       required: [true, 'Car ID is required!'],
+      validate: {
+        validator: async function (value) {
+          const result = await CarModel.exists({ _id: value });
+          return result ? true : false;
+        },
+        message: 'Referenced car does not exist!',
+      },
     },
     quantity: {
       type: Number,
