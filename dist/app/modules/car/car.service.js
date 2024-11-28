@@ -20,8 +20,19 @@ const createCarToDB = (car) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 // Get All Car Service
-const getAllCarsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield car_model_1.default.find({});
+const getAllCarsFromDB = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
+    let query = {};
+    console.log(searchTerm);
+    if (searchTerm) {
+        query = {
+            $or: [
+                { brand: { $regex: searchTerm, $options: 'i' } },
+                { model: { $regex: searchTerm, $options: 'i' } },
+                { category: { $regex: searchTerm, $options: 'i' } },
+            ],
+        };
+    }
+    const result = yield car_model_1.default.find(query);
     return result;
 });
 // Get Single Car Service

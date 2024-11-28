@@ -34,7 +34,8 @@ const createCar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 // Get All Car
 const getAllCars = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield car_service_1.carServices.getAllCarsFromDB();
+        const { searchTerm } = req.query;
+        const result = yield car_service_1.carServices.getAllCarsFromDB(searchTerm);
         res.json({
             status: true,
             message: 'Cars retrieved successfully',

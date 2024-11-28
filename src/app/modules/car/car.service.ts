@@ -8,8 +8,19 @@ const createCarToDB = async (car: Car) => {
 };
 
 // Get All Car Service
-const getAllCarsFromDB = async () => {
-  const result = await CarModel.find({});
+const getAllCarsFromDB = async (searchTerm: string) => {
+  let query = {};
+  console.log(searchTerm);
+  if (searchTerm) {
+    query = {
+      $or: [
+        { brand: { $regex: searchTerm, $options: 'i' } },
+        { model: { $regex: searchTerm, $options: 'i' } },
+        { category: { $regex: searchTerm, $options: 'i' } },
+      ],
+    };
+  }
+  const result = await CarModel.find(query);
   return result;
 };
 
