@@ -14,12 +14,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const app_1 = __importDefault(require("./app"));
-const config_1 = __importDefault(require("./app/config"));
+const config_1 = require("./app/config");
+// import config from "./app/config";
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield mongoose_1.default.connect(config_1.default.db_url);
-        app_1.default.listen(config_1.default.port, () => {
-            console.log("Server is Running at : ", config_1.default.port);
+        yield mongoose_1.default.connect(config_1.config.db_url);
+        app_1.default.listen(config_1.config.port, () => {
+            console.log('Server is Running at : ', config_1.config.port);
         });
     }
     catch (error) {

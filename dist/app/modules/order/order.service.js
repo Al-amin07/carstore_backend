@@ -13,6 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.orderServices = void 0;
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const app_1 = require("../../../app");
 const order_model_1 = __importDefault(require("./order.model"));
 const createOrderToDB = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield order_model_1.default.create(data);
@@ -24,9 +26,10 @@ const calculateRevenueFromDB = () => __awaiter(void 0, void 0, void 0, function*
             $group: {
                 _id: null,
                 totalPrice: {
-                    $sum: {
-                        $multiply: ['$totalPrice', '$quantity'],
-                    },
+                    $sum: '$totalPrice',
+                    // $sum: {
+                    //   $multiply: ['$totalPrice', '$quantity'],
+                    // },
                 },
             },
         },
@@ -40,11 +43,36 @@ const calculateRevenueFromDB = () => __awaiter(void 0, void 0, void 0, function*
     return result;
 });
 const getAllOrdersFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield order_model_1.default.find({});
+    const result = yield order_model_1.default.find({}).populate('car');
+    return result;
+});
+const updateOrder = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield order_model_1.default.findByIdAndUpdate(id, payload, { new: true });
+    return result;
+});
+const getClientSecret = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const paymentIntent = yield app_1.stripe.paymentIntents.create({
+        amount: Math.round((payload === null || payload === void 0 ? void 0 : payload.amount) * 100), // Stripe expects amounts in cents
+        currency: 'usd',
+        metadata: {
+            brand: payload === null || payload === void 0 ? void 0 : payload.brand,
+            model: payload === null || payload === void 0 ? void 0 : payload.model,
+            category: payload === null || payload === void 0 ? void 0 : payload.category,
+            totalPrice: payload === null || payload === void 0 ? void 0 : payload.totalPrice,
+        },
+    });
+    console.log('cl ', paymentIntent.client_secret);
+    return paymentIntent.client_secret;
+});
+const getUserOrder = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield order_model_1.default.find({ email }).populate('car');
     return result;
 });
 exports.orderServices = {
     createOrderToDB,
     calculateRevenueFromDB,
     getAllOrdersFromDB,
+    updateOrder,
+    getClientSecret,
+    getUserOrder,
 };

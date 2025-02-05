@@ -47,6 +47,15 @@ const orderSchema = new mongoose_1.Schema({
         required: [true, 'Total price is required!'],
         min: [0, 'Total price must be a positive number!'],
     },
+    transactionId: {
+        type: String,
+        required: true,
+    },
+    status: {
+        type: String,
+        enum: ['pending', 'processing', 'shipped', 'delivered', 'canceled'],
+        default: 'pending',
+    },
 }, { timestamps: true });
 const OrderModel = (0, mongoose_1.model)('Orders', orderSchema);
 exports.default = OrderModel;

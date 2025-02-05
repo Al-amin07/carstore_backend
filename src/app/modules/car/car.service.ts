@@ -1,26 +1,32 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import QueryBuilder from '../../builder/QueryBuilder';
+import { sendImageToCloudinary } from '../../utils/sendImageToCLoudnary';
 import { Car } from './car.interface';
 import CarModel from './car.model';
 
 // Create Car Service
-const createCarToDB = async (car: Car) => {
+const createCarToDB = async (file: any, car: Car) => {
+  const path = file?.path;
+  let imageData;
+  if (path) {
+    imageData = await sendImageToCloudinary(`IMG-${Date.now()}`, path);
+    car.image = imageData?.secure_url;
+  }
+
   const result = await CarModel.create(car);
   return result;
 };
 
 // Get All Car Service
-const getAllCarsFromDB = async (searchTerm: string) => {
-  let query = {};
-  console.log(searchTerm);
-  if (searchTerm) {
-    query = {
-      $or: [
-        { brand: { $regex: searchTerm, $options: 'i' } },
-        { model: { $regex: searchTerm, $options: 'i' } },
-        { category: { $regex: searchTerm, $options: 'i' } },
-      ],
-    };
-  }
-  const result = await CarModel.find(query);
+const getAllCarsFromDB = async (query: Record<string, unknown>) => {
+  console.log(query);
+  const carQuery = new QueryBuilder(CarModel.find(), query)
+    .search(['model', 'brand', 'category'])
+    .price()
+    .filter()
+    .sort()
+    .paginate();
+  const result = await carQuery.modelQuery;
   return result;
 };
 

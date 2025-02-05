@@ -1,33 +1,28 @@
+import { sendResponse } from './../../utils/sendResponse';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { carServices } from './car.service';
+import { catchAsync } from '../../utils/catchAsync';
 
 // Create New Car
-const createCar = async (req: Request, res: Response) => {
-  try {
-    const carDetails = req.body;
-    const result = await carServices.createCarToDB(carDetails);
-    res.status(200).json({
-      success: true,
-      message: 'Car created successfully',
-      data: result,
-    });
-  } catch (error: any) {
-    res.status(400).json({
-      success: false,
-      message: 'Validation failed',
-      error,
-      stack: error?.stack,
-    });
-  }
-};
+const createCar = catchAsync(async (req: Request, res: Response) => {
+  const carDetails = req.body;
+  const file = req.file;
+  console.log({ file });
+  const result = await carServices.createCarToDB(file, carDetails);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Car created successfully',
+    data: result,
+  });
+});
 
 // Get All Car
 const getAllCars = async (req: Request, res: Response) => {
   try {
-    const { searchTerm } = req.query;
-
-    const result = await carServices.getAllCarsFromDB(searchTerm as string);
+    const query = req.query;
+    const result = await carServices.getAllCarsFromDB(query);
     res.json({
       status: true,
       message: 'Cars retrieved successfully',
@@ -91,12 +86,13 @@ const updateSingleCar = async (req: Request, res: Response) => {
 const deleteCar = async (req: Request, res: Response) => {
   try {
     const { carId } = req.params;
+    // console.log({ carId });
     const result = await carServices.deleteCarFromDB(carId);
     console.log(result);
     res.json({
       status: true,
       message: 'Car deleted successfully',
-      data: {},
+      data: result,
     });
   } catch (error: any) {
     res.json({

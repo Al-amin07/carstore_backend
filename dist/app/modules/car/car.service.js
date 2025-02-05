@@ -13,26 +13,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.carServices = void 0;
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
+const sendImageToCLoudnary_1 = require("../../utils/sendImageToCLoudnary");
 const car_model_1 = __importDefault(require("./car.model"));
 // Create Car Service
-const createCarToDB = (car) => __awaiter(void 0, void 0, void 0, function* () {
+const createCarToDB = (file, car) => __awaiter(void 0, void 0, void 0, function* () {
+    const path = file === null || file === void 0 ? void 0 : file.path;
+    let imageData;
+    if (path) {
+        imageData = yield (0, sendImageToCLoudnary_1.sendImageToCloudinary)(`IMG-${Date.now()}`, path);
+        car.image = imageData === null || imageData === void 0 ? void 0 : imageData.secure_url;
+    }
     const result = yield car_model_1.default.create(car);
     return result;
 });
 // Get All Car Service
-const getAllCarsFromDB = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
-    let query = {};
-    console.log(searchTerm);
-    if (searchTerm) {
-        query = {
-            $or: [
-                { brand: { $regex: searchTerm, $options: 'i' } },
-                { model: { $regex: searchTerm, $options: 'i' } },
-                { category: { $regex: searchTerm, $options: 'i' } },
-            ],
-        };
-    }
-    const result = yield car_model_1.default.find(query);
+const getAllCarsFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(query);
+    const carQuery = new QueryBuilder_1.default(car_model_1.default.find(), query)
+        .search(['model', 'brand', 'category'])
+        .price()
+        .filter()
+        .sort()
+        .paginate();
+    const result = yield carQuery.modelQuery;
     return result;
 });
 // Get Single Car Service

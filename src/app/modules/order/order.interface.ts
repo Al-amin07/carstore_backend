@@ -5,4 +5,6 @@ export type Orders = {
   car: Types.ObjectId;
   quantity: number;
   totalPrice: number;
+  transactionId: string;
+  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'canceled';
 };

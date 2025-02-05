@@ -15,11 +15,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.orderControllers = void 0;
 const order_service_1 = require("./order.service");
 const car_model_1 = __importDefault(require("../car/car.model"));
+const catchAsync_1 = require("../../utils/catchAsync");
+const sendResponse_1 = require("../../utils/sendResponse");
 const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const order = req.body;
         const isCarExist = yield car_model_1.default.findById(order.car);
-        const result = yield order_service_1.orderServices.createOrderToDB(order);
         if (!isCarExist) {
             return res.status(404).json({
                 message: 'Something went wrong',
@@ -31,7 +32,7 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         }
         if (!isCarExist.inStock) {
             return res.status(404).json({
-                message: 'Something went wrong',
+                message: 'Out of Stock',
                 status: false,
                 error: {
                     message: 'Car is out of stock!!!',
@@ -57,6 +58,7 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             new: true,
             runValidators: true,
         });
+        const result = yield order_service_1.orderServices.createOrderToDB(order);
         console.log(updatedResult);
         return res.status(200).json({
             message: 'Order created successfully',
@@ -90,6 +92,25 @@ const getAllOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
 });
+const getUserOrder = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.params;
+    const result = yield order_service_1.orderServices.getUserOrder(email);
+    res.json({
+        status: true,
+        message: 'Order retrived successfully',
+        data: result,
+    });
+}));
+const updateOrder = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { orderId } = req.params;
+    const payload = req.body;
+    const result = yield order_service_1.orderServices.updateOrder(orderId, payload);
+    res.json({
+        status: true,
+        message: 'Order updated successfully',
+        data: result,
+    });
+}));
 const calculateRevenue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield order_service_1.orderServices.calculateRevenueFromDB();
@@ -108,8 +129,22 @@ const calculateRevenue = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
 });
+const getClientSecret = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const payload = req.body;
+    // const result = ;
+    const result = yield order_service_1.orderServices.getClientSecret(payload);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        statusCode: 200,
+        message: 'client sceret retrived successfully',
+        data: result,
+    });
+}));
 exports.orderControllers = {
     createOrder,
     calculateRevenue,
     getAllOrder,
+    updateOrder,
+    getClientSecret,
+    getUserOrder,
 };

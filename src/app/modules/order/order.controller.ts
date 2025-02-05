@@ -2,12 +2,14 @@
 import { Request, Response } from 'express';
 import { orderServices } from './order.service';
 import CarModel from '../car/car.model';
+import { catchAsync } from '../../utils/catchAsync';
+import { sendResponse } from '../../utils/sendResponse';
 
 const createOrder = async (req: Request, res: Response): Promise<any> => {
   try {
     const order = req.body;
     const isCarExist = await CarModel.findById(order.car);
-    const result = await orderServices.createOrderToDB(order);
+
     if (!isCarExist) {
       return res.status(404).json({
         message: 'Something went wrong',
@@ -19,7 +21,7 @@ const createOrder = async (req: Request, res: Response): Promise<any> => {
     }
     if (!isCarExist.inStock) {
       return res.status(404).json({
-        message: 'Something went wrong',
+        message: 'Out of Stock',
         status: false,
         error: {
           message: 'Car is out of stock!!!',
@@ -50,6 +52,7 @@ const createOrder = async (req: Request, res: Response): Promise<any> => {
         runValidators: true,
       },
     );
+    const result = await orderServices.createOrderToDB(order);
     console.log(updatedResult);
 
     return res.status(200).json({
@@ -83,6 +86,25 @@ const getAllOrder = async (req: Request, res: Response) => {
     });
   }
 };
+const getUserOrder = catchAsync(async (req: Request, res: Response) => {
+  const { email } = req.params;
+  const result = await orderServices.getUserOrder(email);
+  res.json({
+    status: true,
+    message: 'Order retrived successfully',
+    data: result,
+  });
+});
+const updateOrder = catchAsync(async (req: Request, res: Response) => {
+  const { orderId } = req.params;
+  const payload = req.body;
+  const result = await orderServices.updateOrder(orderId, payload);
+  res.json({
+    status: true,
+    message: 'Order updated successfully',
+    data: result,
+  });
+});
 
 const calculateRevenue = async (req: Request, res: Response) => {
   try {
@@ -102,8 +124,23 @@ const calculateRevenue = async (req: Request, res: Response) => {
   }
 };
 
+const getClientSecret = catchAsync(async (req, res) => {
+  const payload = req.body;
+  // const result = ;
+  const result = await orderServices.getClientSecret(payload);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'client sceret retrived successfully',
+    data: result,
+  });
+});
+
 export const orderControllers = {
   createOrder,
   calculateRevenue,
   getAllOrder,
+  updateOrder,
+  getClientSecret,
+  getUserOrder,
 };

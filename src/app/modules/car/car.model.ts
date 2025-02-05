@@ -27,6 +27,10 @@ const carSchema = new Schema<Car>(
       },
       required: [true, 'Category is required'],
     },
+    image: {
+      type: String,
+      required: true,
+    },
     price: {
       type: Number,
       required: [true, 'Price is required'],
@@ -44,7 +48,7 @@ const carSchema = new Schema<Car>(
     },
     inStock: {
       type: Boolean,
-      required: [true, 'Stock status is required'],
+      default: true,
     },
   },
   { timestamps: true },

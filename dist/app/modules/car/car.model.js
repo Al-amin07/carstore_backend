@@ -26,6 +26,10 @@ const carSchema = new mongoose_1.Schema({
         },
         required: [true, 'Category is required'],
     },
+    image: {
+        type: String,
+        required: true,
+    },
     price: {
         type: Number,
         required: [true, 'Price is required'],
@@ -43,7 +47,7 @@ const carSchema = new mongoose_1.Schema({
     },
     inStock: {
         type: Boolean,
-        required: [true, 'Stock status is required'],
+        default: true,
     },
 }, { timestamps: true });
 const CarModel = (0, mongoose_1.model)('Cars', carSchema);
