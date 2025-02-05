@@ -15,7 +15,7 @@ const config_1 = require("./app/config");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)({
-    origin: ['http://localhost:5173'],
+    origin: ['http://localhost:5173', 'https://project-44.netlify.app'],
     credentials: true,
 }));
 exports.stripe = new stripe_1.default(config_1.config.stripe_secret);
