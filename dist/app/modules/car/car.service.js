@@ -15,16 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.carServices = void 0;
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
-const sendImageToCLoudnary_1 = require("../../utils/sendImageToCLoudnary");
 const car_model_1 = __importDefault(require("./car.model"));
 // Create Car Service
-const createCarToDB = (file, car) => __awaiter(void 0, void 0, void 0, function* () {
-    const path = file === null || file === void 0 ? void 0 : file.path;
-    let imageData;
-    if (path) {
-        imageData = yield (0, sendImageToCLoudnary_1.sendImageToCloudinary)(`IMG-${Date.now()}`, path);
-        car.image = imageData === null || imageData === void 0 ? void 0 : imageData.secure_url;
-    }
+const createCarToDB = (car) => __awaiter(void 0, void 0, void 0, function* () {
+    // const path = file?.path;
+    // let imageData;
+    // if (path) {
+    //   imageData = await sendImageToCloudinary(`IMG-${Date.now()}`, path);
+    //   car.image = imageData?.secure_url;
+    // }
     const result = yield car_model_1.default.create(car);
     return result;
 });

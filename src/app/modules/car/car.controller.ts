@@ -7,9 +7,10 @@ import { catchAsync } from '../../utils/catchAsync';
 // Create New Car
 const createCar = catchAsync(async (req: Request, res: Response) => {
   const carDetails = req.body;
-  const file = req.file;
-  console.log({ file });
-  const result = await carServices.createCarToDB(file, carDetails);
+  console.log({ carDetails });
+  // const file = req.file;
+  // console.log({ file });
+  const result = await carServices.createCarToDB(carDetails);
   sendResponse(res, {
     success: true,
     statusCode: 200,

@@ -1,6 +1,6 @@
 import express from 'express';
 import { carControllers } from './car.controller';
-import { upload } from '../../utils/sendImageToCLoudnary';
+
 import { auth } from '../../middleware/auth';
 
 const route = express.Router();
@@ -10,11 +10,11 @@ route.get('/:carId', carControllers.getSingleCar);
 route.put('/:carId', carControllers.updateSingleCar);
 route.post(
   '/',
-  upload.single('file'),
-  (req, res, next) => {
-    req.body = JSON.parse(req.body.data);
-    next();
-  },
+  // upload.single('file'),
+  // (req, res, next) => {
+  //   req.body = JSON.parse(req.body.data);
+  //   next();
+  // },
   auth('admin'),
   carControllers.createCar,
 );

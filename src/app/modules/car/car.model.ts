@@ -29,7 +29,7 @@ const carSchema = new Schema<Car>(
     },
     image: {
       type: String,
-      required: true,
+      // required: true,
     },
     price: {
       type: Number,

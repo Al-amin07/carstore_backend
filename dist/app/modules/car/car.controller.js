@@ -16,9 +16,10 @@ const catchAsync_1 = require("../../utils/catchAsync");
 // Create New Car
 const createCar = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const carDetails = req.body;
-    const file = req.file;
-    console.log({ file });
-    const result = yield car_service_1.carServices.createCarToDB(file, carDetails);
+    console.log({ carDetails });
+    // const file = req.file;
+    // console.log({ file });
+    const result = yield car_service_1.carServices.createCarToDB(carDetails);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
         statusCode: 200,
